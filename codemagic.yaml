@@ -26,8 +26,8 @@ workflows:
             - name: Build ipa for distribution
               script: |
                 xcode-project build-ipa \
-                  --workspace "ios/NewArchRN.xcworkspace" \
-                  --scheme "NewArchRN"
+                  --workspace "ios/TeamTelliskivi.xcworkspace" \
+                  --scheme "TeamTelliskivi"
         artifacts:
             - build/ios/ipa/*.ipa
             - /tmp/xcodebuild_logs/*.log
