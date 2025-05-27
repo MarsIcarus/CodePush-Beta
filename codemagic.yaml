@@ -1,0 +1,38 @@
+workflows:
+    ios-workflow:
+        name: CodePush Workflow
+        instance_type: mac_mini_m2
+        environment:
+          ios_signing:
+            distribution_type: app_store
+            bundle_identifier: io.codepush.cm.com
+        integrations:
+          app_store_connect: CM
+        scripts:
+            - name: Install npm dependencies
+              script: |
+                npm install
+            - name: Install CocoaPods dependencies
+              script: |
+                cd ios && pod install
+            - name: Set up code signing settings on Xcode project
+              script: |
+                xcode-project use-profiles --warn-only
+            - name: Increment build number
+              script: |
+                cd $CM_BUILD_DIR/ios
+                LATEST_BUILD_NUMBER=$(app-store-connect get-latest-testflight-build-number "6742381298")
+                agvtool new-version -all $(($LATEST_BUILD_NUMBER + 1))
+            - name: Build ipa for distribution
+              script: |
+                xcode-project build-ipa \
+                  --workspace "ios/NewArchRN.xcworkspace" \
+                  --scheme "NewArchRN"
+        artifacts:
+            - build/ios/ipa/*.ipa
+            - /tmp/xcodebuild_logs/*.log
+            - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
+            - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
+        publishing:
+          app_store_connect:
+            auth: integration
