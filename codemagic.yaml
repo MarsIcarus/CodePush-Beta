@@ -12,8 +12,6 @@ workflows:
           events:
              - push
              - pull_request
-          branch_patterns:
-            - pattern: 'test'
         inputs:
           pr_number:
             description: Enter pull request number
