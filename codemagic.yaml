@@ -12,7 +12,11 @@ workflows:
           events:
              - pull_request
           branch_patterns:
-            - pattern: 'test'
+            - pattern: '6787'
+        inputs:
+          number_input:
+            description: Number input
+            type: string
         # integrations:
         #   app_store_connect: CM
         scripts:
