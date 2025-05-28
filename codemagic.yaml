@@ -13,6 +13,11 @@ workflows:
              - pull_request
           branch_patterns:
             - pattern: 'test'
+        inputs:
+          pr_number:
+            description: Enter pull request number
+            required: false
+            default: ""
         # integrations:
         #   app_store_connect: CM
         scripts:
