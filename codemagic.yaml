@@ -3,11 +3,13 @@ workflows:
         name: CodePush Workflow
         instance_type: mac_mini_m2
         environment:
+          groups:
+             - app_store_connect
           ios_signing:
             distribution_type: app_store
             bundle_identifier: io.codepush.cm.com
-        integrations:
-          app_store_connect: CM
+        # integrations:
+        #   app_store_connect: CM
         scripts:
             - name: Install npm dependencies
               script: |
@@ -35,6 +37,8 @@ workflows:
             - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
         publishing:
           app_store_connect:
-            auth: integration
+            api_key: $APP_STORE_CONNECT_PRIVATE_KEY
+            issuer_id: $APP_STORE_CONNECT_ISSUER_ID
+            key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
             submit_to_app_store: true
             release_type: AFTER_APPROVAL
