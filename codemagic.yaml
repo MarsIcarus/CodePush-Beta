@@ -1,7 +1,7 @@
 workflows:
     ios-workflow:
         name: CodePush Workflow
-        instance_type: mac_mini_m2
+        # instance_type: mac_mini_m2
         environment:
           groups:
              - app_store_connect
@@ -12,7 +12,7 @@ workflows:
           events:
              - pull_request
           branch_patterns:
-            - pattern: 'test'
+            - pattern: 'mars123'
         # integrations:
         #   app_store_connect: CM
         scripts:
