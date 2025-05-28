@@ -8,6 +8,11 @@ workflows:
           ios_signing:
             distribution_type: app_store
             bundle_identifier: io.codepush.cm.com
+        triggering:
+          events:
+             - pull_request
+          branch_patterns:
+            - pattern: 'test'
         # integrations:
         #   app_store_connect: CM
         scripts:
