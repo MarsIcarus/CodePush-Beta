@@ -52,6 +52,10 @@ workflows:
             release_type: AFTER_APPROVAL
     react-native-android:
         name: React Native Android
+        triggering:
+          events:
+             - push
+             - pull_request
         scripts:
             - name: Install npm dependencies
               script: |
