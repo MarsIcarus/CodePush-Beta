@@ -15,7 +15,6 @@ workflows:
         inputs:
           pr_number:
             description: Enter pull request number
-            required: false
             default: "string"
         # integrations:
         #   app_store_connect: CM
