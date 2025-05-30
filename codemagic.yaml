@@ -8,17 +8,21 @@ workflows:
           ios_signing:
             distribution_type: app_store
             bundle_identifier: io.codepush.cm.com
-        triggering:
-          events:
-             - push
-             - pull_request
-        inputs:
-          pr_number:
-            description: Enter pull request number
-            default: "string"
+        # triggering:
+        #   events:
+        #      - push
+        #      - pull_request
+        # inputs:
+        #   pr_number:
+        #     description: Enter pull request number
+        #     default: "string"
         # integrations:
         #   app_store_connect: CM
         scripts:
+            - name: Create local .env file
+              script: |
+                   echo "MY_VAR=$MY_VAR" > .env
+                   echo "ANOTHER_VAR=$MY_ANOTHER_VAR" >> .env
             - name: Install npm dependencies
               script: |
                 npm install
@@ -52,10 +56,10 @@ workflows:
             release_type: AFTER_APPROVAL
     react-native-android:
         name: React Native Android
-        triggering:
-          events:
-             - push
-             - pull_request
+        # triggering:
+        #   events:
+        #      - push
+        #      - pull_request
         scripts:
             - name: Install npm dependencies
               script: |
