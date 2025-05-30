@@ -22,7 +22,7 @@ workflows:
             - name: Create local .env file
               script: |
                    echo "MY_VAR=$MY_VAR" > .env
-                   echo "ANOTHER_VAR=$MY_ANOTHER_VAR" >> .env
+                   echo "ANOTHER_VAR=$MY_ANOTHER_VAR" > .env
             - name: Install npm dependencies
               script: |
                 npm install
