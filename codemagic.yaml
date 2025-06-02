@@ -20,8 +20,20 @@ workflows:
         # integrations:
         #   app_store_connect: CM
         scripts:
+            - name: Ruby version update
+              script: |
+                export PATH="$HOME/.rbenv/bin:$HOME/.rbenv/shims:$PATH"
+                eval "$(rbenv init - bash)"
+                rbenv install 3.3.0 || echo "Ya instalado"
+                rbenv global 3.3.0
+                rbenv rehash
+                echo "Ruby activo:"
+                which ruby
+                ls -l $(which ruby)
+                ruby -v
             - name: Create local .env file
               script: |
+                   ruby -v
                    echo "MY_VAR=$MY_VAR" > .env
                    echo "ANOTHER_VAR=$MY_ANOTHER_VAR" > .env
             - name: Install npm dependencies
