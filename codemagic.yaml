@@ -1,7 +1,7 @@
 workflows:
     ios-workflow:
         name: CodePush Workflow
-        instance_type: mac_mini_m4
+        # instance_type: mac_mini_m4
         environment:
           groups:
              - app_store_connect
