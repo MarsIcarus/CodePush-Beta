@@ -22,15 +22,10 @@ workflows:
         scripts:
             - name: Ruby version update
               script: |
-                export PATH="$HOME/.rbenv/bin:$HOME/.rbenv/shims:$PATH"
-                eval "$(rbenv init - bash)"
-                rbenv install 3.3.0 || echo "Ya instalado"
+                brew upgrade ruby-build
+                rbenv install 3.3.0
                 rbenv global 3.3.0
-                rbenv rehash
-                echo "Ruby activo:"
-                which ruby
-                ls -l $(which ruby)
-                ruby -v
+                echo "RBENV_VERSION=3.3.0" >> $CM_ENV 
             - name: Create local .env file
               script: |
                    ruby -v
