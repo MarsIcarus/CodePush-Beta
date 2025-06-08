@@ -17,6 +17,8 @@ workflows:
               include: true
               source: false
           cancel_previous_builds: true
+        when:
+         condition: event.pull_request.draft
         # when:
         #   condition: event.pull_request.draft
         # triggering:
