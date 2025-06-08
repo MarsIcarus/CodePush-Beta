@@ -18,7 +18,7 @@ workflows:
               source: false
           cancel_previous_builds: true
         when:
-         condition: event.pull_request.draft
+         condition: (event.pull_request.draft) or (event.actions.ready_for_review)
         # when:
         #   condition: event.pull_request.draft
         # triggering:
