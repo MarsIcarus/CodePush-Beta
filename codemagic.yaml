@@ -9,6 +9,16 @@ workflows:
             distribution_type: app_store
             bundle_identifier: io.codepush.cm.com
           xcode: 16.2
+        triggering:
+          events:
+            - pull_request
+          branch_patterns:
+            - pattern: '*'
+              include: true
+              source: false
+          cancel_previous_builds: true
+        # when:
+        #   condition: event.pull_request.draft
         # triggering:
         #   events:
         #      - push
