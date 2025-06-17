@@ -5,10 +5,6 @@ workflows:
         environment:
           groups:
              - app_store_connect
-        inputs:
-          name: # input ID
-            description: Who is greeted?
-            default: Codemagic
           ios_signing:
             distribution_type: app_store
             bundle_identifier: io.codepush.cm.com
