@@ -38,17 +38,17 @@ workflows:
         # integrations:
         #   app_store_connect: CM
         scripts:
-            - name: Ruby version update
-              script: |
-                brew upgrade ruby-build
-                rbenv install 3.3.0
-                rbenv global 3.3.0
-                echo "RBENV_VERSION=3.3.0" >> $CM_ENV 
-            - name: Create local .env file
-              script: |
-                   ruby -v
-                   echo "MY_VAR=$MY_VAR" > .env
-                   echo "ANOTHER_VAR=$MY_ANOTHER_VAR" > .env
+            # - name: Ruby version update
+            #   script: |
+            #     brew upgrade ruby-build
+            #     rbenv install 3.3.0
+            #     rbenv global 3.3.0
+            #     echo "RBENV_VERSION=3.3.0" >> $CM_ENV 
+            # - name: Create local .env file
+            #   script: |
+            #        ruby -v
+            #        echo "MY_VAR=$MY_VAR" > .env
+            #        echo "ANOTHER_VAR=$MY_ANOTHER_VAR" > .env
             - name: Install npm dependencies
               script: |
                 npm install
@@ -63,17 +63,17 @@ workflows:
                 cd $CM_BUILD_DIR/ios
                 LATEST_BUILD_NUMBER=$(app-store-connect get-latest-testflight-build-number "6746455226")
                 agvtool new-version -all $(($LATEST_BUILD_NUMBER + 1))
-            - name: Build the .app
-              script: | 
-                xcodebuild build \
-                  -workspace "TeamTelliskivi.xcworkspace" \
-                  -scheme "TeamTelliskivi" \
-                  -sdk iphonesimulator \
-                  -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.0' \
-                  -configuration Debug \
-                  CODE_SIGN_IDENTITY="" \
-                  CODE_SIGNING_REQUIRED=NO \
-                  CODE_SIGNING_ALLOWED=NO
+            # - name: Build the .app
+            #   script: | 
+            #     xcodebuild build \
+            #       -workspace "TeamTelliskivi.xcworkspace" \
+            #       -scheme "TeamTelliskivi" \
+            #       -sdk iphonesimulator \
+            #       -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.0' \
+            #       -configuration Debug \
+            #       CODE_SIGN_IDENTITY="" \
+            #       CODE_SIGNING_REQUIRED=NO \
+            #       CODE_SIGNING_ALLOWED=NO
             - name: Build ipa for distribution
               script: |
                 xcode-project build-ipa \
