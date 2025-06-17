@@ -55,7 +55,7 @@ workflows:
             #        echo "ANOTHER_VAR=$MY_ANOTHER_VAR" > .env
             - name: Azure CLI
               script: |
-               echo "Hello, ${{ inputs.name }}"
+         echo "Hello, ${{ inputs.name }}"
                HOMEBREW_NO_AUTO_UPDATE=1 brew install azure-cli
             - name: Install npm dependencies
               script: |
