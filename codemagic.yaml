@@ -9,21 +9,21 @@ workflows:
             distribution_type: app_store
             bundle_identifier: io.codepush.cm.com
           xcode: 16.3
-        triggering:
-          events:
-            - push
-            - pull_request
-          branch_patterns:
-            - pattern: '*'
-              include: true
-              source: false
-          cancel_previous_builds: true
-        when:
-         changeset:
-            includes:
-              - 'android/'
-            excludes:
-              - 'ios/'
+        # triggering:
+        #   events:
+        #     - push
+        #     - pull_request
+        #   branch_patterns:
+        #     - pattern: '*'
+        #       include: true
+        #       source: false
+        #   cancel_previous_builds: true
+        # when:
+        #  changeset:
+        #     includes:
+        #       - 'android/'
+        #     excludes:
+        #       - 'ios/'
          # condition: (event.pull_request.draft) or (event.actions.ready_for_review)
         # when:
         #   condition: event.pull_request.draft
@@ -49,6 +49,9 @@ workflows:
             #        ruby -v
             #        echo "MY_VAR=$MY_VAR" > .env
             #        echo "ANOTHER_VAR=$MY_ANOTHER_VAR" > .env
+            - name: Azure CLI
+              script: |
+               brew install azure-cli
             - name: Install npm dependencies
               script: |
                 npm install
