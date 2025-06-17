@@ -16,7 +16,7 @@ workflows:
           branch_patterns:
             - pattern: '*'
               include: true
-              source: true
+              source: false
           cancel_previous_builds: true
         when:
          changeset:
