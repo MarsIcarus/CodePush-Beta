@@ -5,6 +5,10 @@ workflows:
         environment:
           groups:
              - app_store_connect
+        inputs:
+          name: # input ID
+            description: Who is greeted?
+            default: Codemagic
           ios_signing:
             distribution_type: app_store
             bundle_identifier: io.codepush.cm.com
@@ -51,6 +55,7 @@ workflows:
             #        echo "ANOTHER_VAR=$MY_ANOTHER_VAR" > .env
             - name: Azure CLI
               script: |
+               echo "Hello, ${{ inputs.name }}"
                HOMEBREW_NO_AUTO_UPDATE=1 brew install azure-cli
             - name: Install npm dependencies
               script: |
