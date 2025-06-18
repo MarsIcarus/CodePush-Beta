@@ -35,8 +35,8 @@ workflows:
         #   pr_number:
         #     description: Enter pull request number
         #     default: "string"
-        # integrations:
-        #   app_store_connect: CM
+        integrations:
+          app_store_connect: CM
         scripts:
             # - name: Ruby version update
             #   script: |
