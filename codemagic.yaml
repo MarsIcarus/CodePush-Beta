@@ -8,7 +8,7 @@ workflows:
           ios_signing:
             distribution_type: app_store
             bundle_identifier: io.codepush.cm.com
-          xcode: 16.3
+          # xcode: 16.3
         triggering:
           events:
             - push
