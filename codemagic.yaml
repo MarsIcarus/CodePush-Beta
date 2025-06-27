@@ -49,6 +49,29 @@ workflows:
             #        ruby -v
             #        echo "MY_VAR=$MY_VAR" > .env
             #        echo "ANOTHER_VAR=$MY_ANOTHER_VAR" > .env
+            - name: Incrementing build number
+              script: |
+                cd "$CM_BUILD_DIR" LATEST_VERSION=$(app-store-connect get-latest-app-store-version "6746455226") LATEST_BUILD_NUMBER=$(app-store-connect get-latest-app-store-build-number "6746455226") echo "App Store version : $LATEST_VERSION" echo "Build number      : $LATEST_BUILD_NUMBER" if [[ $LATEST_BUILD_NUMBER =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
+                  major=${BASH_REMATCH[1]}
+                  minor=${BASH_REMATCH[2]}
+                  patch=${BASH_REMATCH[3]}
+                  patch=$((patch + 1))
+                  if [[ $patch -ge 10 ]]; then patch=0; minor=$((minor + 1)); fi
+                  if [[ $minor -ge 10 ]]; then minor=0; major=$((major + 1)); fi
+                  NEW_BUILD_NUMBER="$major.$minor.$patch"
+                elif [[ $LATEST_BUILD_NUMBER =~ ^([0-9]+)$ ]]; then
+                  if [[ $LATEST_VERSION =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
+                    major=${BASH_REMATCH[1]}
+                    minor=${BASH_REMATCH[2]}
+                    patch=${BASH_REMATCH[3]}
+                    patch=$((patch + 1))
+                    NEW_BUILD_NUMBER="$major.$minor.$patch"
+                  else
+                    echo "Error: App Store version not semantic"; exit 1
+                  fi
+                else
+                  echo "Error: build number not semantic or numeric"; exit 1
+                fi echo "New build number -> $NEW_BUILD_NUMBER" agvtool new-version -all "$NEW_BUILD_NUMBER"
             - name: Azure CLI
               script: |
                HOMEBREW_NO_AUTO_UPDATE=1 brew install azure-cli
