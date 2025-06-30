@@ -52,8 +52,8 @@ workflows:
             - name: Incrementing build number
               script: |
                cd "$CM_BUILD_DIR"
-                LATEST_VERSION=$(app-store-connect get-latest-app-store-version "$APP_STORE_APPLE_ID")
-                LATEST_BUILD_NUMBER=$(app-store-connect get-latest-app-store-build-number "$APP_STORE_APPLE_ID")
+                LATEST_VERSION=$(app-store-connect get-latest-app-store-version "6746455226")
+                LATEST_BUILD_NUMBER=$(app-store-connect get-latest-app-store-build-number "6746455226")
                 
                 echo "Found build number $LATEST_BUILD_NUMBER from App Store version $LATEST_VERSION"
                 
