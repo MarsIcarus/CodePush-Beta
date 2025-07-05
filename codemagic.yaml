@@ -1,6 +1,9 @@
 workflows:
     ios-workflow:
         name: CodePush Workflow
+        pre_clone_scripts:
+          - name: Scripts to run before cloning the repository
+            script: timeout 10s
         # instance_type: mac_mini_m4
         environment:
           groups:
