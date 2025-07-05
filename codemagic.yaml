@@ -1,9 +1,9 @@
 workflows:
     ios-workflow:
         name: CodePush Workflow
-        pre_clone_scripts:
-          - name: Timeout
-            script: timeout 10s
+        # pre_clone_scripts:
+        #   - name: Timeout
+        #     script: timeout 10s
         # instance_type: mac_mini_m4
         environment:
           groups:
