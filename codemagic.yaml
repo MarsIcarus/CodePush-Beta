@@ -161,6 +161,9 @@ workflows:
             - /tmp/xcodebuild_logs/*.log
             - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
             - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
+        publishing:
+          tester_groups:
+            - Mars
         # publishing:
         #   app_store_connect:
         #     api_key: $APP_STORE_CONNECT_PRIVATE_KEY
