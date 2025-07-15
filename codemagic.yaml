@@ -4,7 +4,7 @@ workflows:
         # pre_clone_scripts:
         #   - name: Timeout
         #     script: timeout 10s
-        # instance_type: mac_mini_m4
+        instance_type: mac_mini_m2
         environment:
           groups:
              - app_store_connect
