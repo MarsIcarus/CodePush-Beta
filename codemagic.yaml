@@ -5,6 +5,7 @@ workflows:
         #   - name: Timeout
         #     script: timeout 10s
         instance_type: mac_mini_m2
+        working_directory: $test_app
         environment:
           groups:
              - app_store_connect
