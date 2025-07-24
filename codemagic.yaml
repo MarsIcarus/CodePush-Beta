@@ -18,9 +18,9 @@ workflows:
             - pull_request
           branch_patterns:
             - pattern: '*'
-        cache:
-           cache_paths:
-             - ~/.gradle/caches
+        # cache:
+        #    cache_paths:
+        #      - ~/.gradle/caches
 
         #       include: true
         #       source: false
