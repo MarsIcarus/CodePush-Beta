@@ -9,9 +9,9 @@ workflows:
         environment:
           groups:
              - app_store_connect
-          ios_signing:
-            distribution_type: development
-            bundle_identifier: io.codepush.cm.com
+          # ios_signing:
+          #   distribution_type: development
+          #   bundle_identifier: io.codepush.cm.com
           xcode: 16.4
         # triggering:
         #   events:
@@ -122,23 +122,32 @@ workflows:
             # else
             #   echo "Error: build number not semantic or numeric"; exit 1
             # fi echo "New build number -> $NEW_BUILD_NUMBER" agvtool new-version -all "$NEW_BUILD_NUMBER"
-            - name: Azure CLI
-              script: |
-               HOMEBREW_NO_AUTO_UPDATE=1 brew install azure-cli
+            # - name: Azure CLI
+            #   script: |
+            #    HOMEBREW_NO_AUTO_UPDATE=1 brew install azure-cli
             - name: Install npm dependencies
               script: |
                 npm install
+            - name: Set up keychain to be used for codesigning using Codemagic CLI 'keychain' command
+              script: |
+                keychain initialize
+            - name: Fetch signing files
+              script: |
+                app-store-connect fetch-signing-files $BUNDLE_ID --type IOS_APP_STORE --create
+            - name: Use system default keychain
+              script: |
+                keychain add-certificates
             - name: Install CocoaPods dependencies
               script: |
                 cd ios && pod install
             - name: Set up code signing settings on Xcode project
               script: |
-                xcode-project use-profiles --warn-only
+                    xcode-project use-profiles --warn-only
             - name: Increment build number
               script: |
-                cd $CM_BUILD_DIR/ios
-                LATEST_BUILD_NUMBER=$(app-store-connect get-latest-testflight-build-number "6746455226")
-                agvtool new-version -all $(($LATEST_BUILD_NUMBER + 1))
+                    cd $CM_BUILD_DIR/ios
+                    LATEST_BUILD_NUMBER=$(app-store-connect get-latest-testflight-build-number "6746455226")
+                    agvtool new-version -all $(($LATEST_BUILD_NUMBER + 1))
             # - name: Build the .app
             #   script: | 
             #     xcodebuild build \
@@ -162,9 +171,9 @@ workflows:
             - /tmp/xcodebuild_logs/*.log
             - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
             - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
-        publishing:
-          tester_groups:
-            - Mars
+        # publishing:
+        #   tester_groups:
+        #     - Mars
         # publishing:
         #   app_store_connect:
         #     api_key: $APP_STORE_CONNECT_PRIVATE_KEY
@@ -200,3 +209,6 @@ workflows:
                   -PversionName=1.0.$UPDATED_BUILD_NUMBER
         artifacts:
             - android/app/build/outputs/**/*.aab
+
+
+
