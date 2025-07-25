@@ -163,8 +163,7 @@ workflows:
                 xcode-project build-ipa \
                   --workspace "ios/TeamTelliskivi.xcworkspace" \
                   --scheme "TeamTelliskivi" \
-                  --archive-flags="-destination 'generic/platform=iOS'" \
-                  --export-options-plist="/Users/builder/export_options.plist" 
+                  --archive-flags="-destination 'generic/platform=iOS'" 
         artifacts:
             - build/ios/ipa/*.ipa
             - /tmp/xcodebuild_logs/*.log
