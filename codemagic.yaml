@@ -13,12 +13,12 @@ workflows:
           #   distribution_type: development
           #   bundle_identifier: io.codepush.cm.com
           # xcode: 16.3
-        triggering:
-          events:
-            - push
-            - pull_request
-          branch_patterns:
-            - pattern: '*'
+        # triggering:
+        #   events:
+        #     - push
+        #     - pull_request
+        #   branch_patterns:
+        #     - pattern: '*'
         # cache:
         #    cache_paths:
         #      - ~/.gradle/caches
