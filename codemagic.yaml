@@ -182,7 +182,7 @@ workflows:
         #     release_type: AFTER_APPROVAL
     react-native-android:
         name: React Native Android
-        instance_type: linux_x2
+        instance_type: windows_x2
         # triggering:
         #   events:
         #      - push
