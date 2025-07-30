@@ -12,7 +12,7 @@ workflows:
           groups:
              - app_store_connect
           vars:
-            CLIENT_ID: ""
+            CLIENT_ID: "_"
         
           # ios_signing:
           #   distribution_type: development
