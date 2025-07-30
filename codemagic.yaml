@@ -11,6 +11,8 @@ workflows:
         environment:
           groups:
              - app_store_connect
+          vars:
+            CLIENT_ID: "_"
         
           # ios_signing:
           #   distribution_type: development
