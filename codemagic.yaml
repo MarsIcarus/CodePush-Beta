@@ -2,7 +2,7 @@ workflows:
     ios-workflow:
         name: CodePush Workflow
         labels:
-          - ${CLIENT_ID}
+          - test
         # pre_clone_scripts:
         #   - name: Timeout
         #     script: timeout 10s
