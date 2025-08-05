@@ -50,9 +50,9 @@ workflows:
           vars:
             CLIENT_ID: "_"
         
-          ios_signing:
-            distribution_type: development
-            bundle_identifier: ${BUNDLE­_ID}
+          # ios_signing:
+          #   distribution_type: development
+          #   bundle_identifier: ${BUNDLE­_ID}
             
             # io.codepush.cm.com
           # xcode: 16.3
