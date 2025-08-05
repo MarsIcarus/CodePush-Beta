@@ -148,11 +148,11 @@ workflows:
             - name: Set up code signing settings on Xcode project
               script: |
                     xcode-project use-profiles --warn-only
-            - name: Increment build number
-              script: |
-                    cd $CM_BUILD_DIR/ios
-                    LATEST_BUILD_NUMBER=$(app-store-connect get-latest-testflight-build-number "6746455226")
-                    agvtool new-version -all $(($LATEST_BUILD_NUMBER + 1))
+            # - name: Increment build number
+            #   script: |
+            #         cd $CM_BUILD_DIR/ios
+            #         LATEST_BUILD_NUMBER=$(app-store-connect get-latest-testflight-build-number "6746455226")
+            #         agvtool new-version -all $(($LATEST_BUILD_NUMBER + 1))
             # - name: Build the .app
             #   script: | 
             #     xcodebuild build \
@@ -175,14 +175,13 @@ workflows:
             - /tmp/xcodebuild_logs/*.log
             - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
             - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
-        # publishing:
-        #   tester_groups:
-        #     - Mars
-        # publishing:
-        #   app_store_connect:
-        #     api_key: $APP_STORE_CONNECT_PRIVATE_KEY
-        #     issuer_id: $APP_STORE_CONNECT_ISSUER_ID
-        #     key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
+        publishing:
+          tester_groups:
+            - Mars
+          app_store_connect:
+            api_key: $APP_STORE_CONNECT_PRIVATE_KEY
+            issuer_id: $APP_STORE_CONNECT_ISSUER_ID
+            key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
         #     submit_to_app_store: true
         #     release_type: AFTER_APPROVAL
     react-native-android:
