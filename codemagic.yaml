@@ -175,13 +175,13 @@ workflows:
             - /tmp/xcodebuild_logs/*.log
             - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
             - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
-        publishing:
-          tester_groups:
-            - Mars
-          app_store_connect:
-            api_key: $APP_STORE_CONNECT_PRIVATE_KEY
-            issuer_id: $APP_STORE_CONNECT_ISSUER_ID
-            key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
+        # publishing:
+        #   tester_groups:
+        #     - Mars
+        #   app_store_connect:
+        #     api_key: $APP_STORE_CONNECT_PRIVATE_KEY
+        #     issuer_id: $APP_STORE_CONNECT_ISSUER_ID
+        #     key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
         #     submit_to_app_store: true
         #     release_type: AFTER_APPROVAL
     react-native-android:
