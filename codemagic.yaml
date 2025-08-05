@@ -176,8 +176,6 @@ workflows:
             - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
             - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
         publishing:
-          tester_groups:
-            - Mars
           app_store_connect:
             api_key: $APP_STORE_CONNECT_PRIVATE_KEY
             issuer_id: $APP_STORE_CONNECT_ISSUER_ID
