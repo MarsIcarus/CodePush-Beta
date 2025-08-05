@@ -1,218 +1,301 @@
 workflows:
-    ios-workflow:
-        name: CodePush Workflow
-        labels:
-          - ${CLIENT_ID}
-        # pre_clone_scripts:
-        #   - name: Timeout
-        #     script: timeout 10s
-        # instance_type: mac_mini_m2
-        # working_directory: test_app
-        environment:
-          groups:
-             - app_store_connect
-          vars:
-            CLIENT_ID: "_"
+  main_pr_workflow:
+    name: iOS Workflow
+    instance_type: mac_mini_m2
+    max_build_duration: 120
+    environment:
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+      ios_signing:
+        distribution_type: app_store # or: ad_hoc | development | enterprise
+        bundle_identifier: ${BUNDLE_ID}
+    scripts:
+      - name: Set up code signing settings on Xcode project
+        script: xcode-project use-profiles
+      - name: Get Flutter packages
+        script: flutter pub get
+      - name: Install pods
+        script: find . -name "Podfile" -execdir pod install \;
+      - name: Flutter build ipa
+        script: |
+          # Get current build number from TestFlight
+          CURRENT_BUILD=$(app-store-connect get-latest-testflight-build-number "$APP_ID")
+          echo "Current TestFlight build number: $CURRENT_BUILD"
+
+          # Get current TestFlight build number
+          CURRENT_BUILD=$(app-store-connect get-latest-testflight-build-number "$APP_ID")
+          NEW_BUILD=$((CURRENT_BUILD + 1))
+
+          # Get version name from pubspec.yaml (e.g. "1.0.4")
+          VERSION_NAME=$(grep 'version:' pubspec.yaml | awk '{print $2}' | cut -d+ -f1)
+
+          echo "Building version $VERSION_NAME+$NEW_BUILD (Previous: $CURRENT_BUILD)"
+
+          flutter build ipa --release \
+            --build-name=$VERSION_NAME \  # Now dynamic from pubspec.yaml
+            --build-number=$NEW_BUILD \
+            --export-options-plist=/Users/builder/export_options.plist
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - flutter_drive.log
+
+
+
+
+      
+# workflows:
+#   android-workflow:
+#     name: Android Sample Workflow
+#     instance_type: mac_mini_m2
+#     max_build_duration: 120
+#     environment:
+#       flutter: stable
+#       android_signing:
+#         - cm_keystore_credentials
+#       groups:
+#         - google_credentials
+#     scripts:
+#       - name: Set up local.properties
+#         script: echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
+#       - name: Install Flutter dependencies
+#         script: flutter pub get
+#       - name: Build AAB with Flutter
+#         script:
+#           CURRENT_BUILD_NUMBER=$(google-play get-latest-build-number --package-name "com.solo.flutter_codemagic_app" --tracks="internal")
+#           echo "versionCode=$((CURRENT_BUILD_NUMBER + 1))" > "$CM_BUILD_DIR/version.properties"
+#           flutter build appbundle --release --build-number=$(($CURRENT_BUILD_NUMBER + 1))
+
+#     artifacts:
+#       - build/**/outputs/**/*.aab
+#       - build/**/outputs/**/mapping.txt
+#       - flutter_drive.log
+#     publishing:
+#       email:
+#         recipients:
+#           - solomon@codemagic.io
+#       google_play:
+#         track: internal
+#         credentials: $GOOGLE_PLAY_SERVICE_ACCOUNT_CREDENTIALS
+#         submit_as_draft: true
+
+
+# workflows:
+#     ios-workflow:
+#         name: CodePush Workflow
+#         labels:
+#           - ${CLIENT_ID}
+#         # pre_clone_scripts:
+#         #   - name: Timeout
+#         #     script: timeout 10s
+#         # instance_type: mac_mini_m2
+#         # working_directory: test_app
+#         environment:
+#           groups:
+#              - app_store_connect
+#           vars:
+#             CLIENT_ID: "_"
         
-          ios_signing:
-            distribution_type: development
-            bundle_identifier: ${BUNDLE­_ID}
+#           ios_signing:
+#             distribution_type: development
+#             bundle_identifier: ${BUNDLE­_ID}
             
-            # io.codepush.cm.com
-          # xcode: 16.3
-        # triggering:
-        #   events:
-        #     - push
-        #     - pull_request
-        #   branch_patterns:
-        #     - pattern: '*'
-        # cache:
-        #    cache_paths:
-        #      - ~/.gradle/caches
+#             # io.codepush.cm.com
+#           # xcode: 16.3
+#         # triggering:
+#         #   events:
+#         #     - push
+#         #     - pull_request
+#         #   branch_patterns:
+#         #     - pattern: '*'
+#         # cache:
+#         #    cache_paths:
+#         #      - ~/.gradle/caches
 
-        #       include: true
-        #       source: false
-        #   cancel_previous_builds: true
-        # when:
-        #  changeset:
-        #     includes:
-        #       - 'android/'
-        #     excludes:
-        #       - 'ios/'
-         # condition: (event.pull_request.draft) or (event.actions.ready_for_review)
-        # when:
-        #   condition: event.pull_request.draft
-        # triggering:
-        #   events:
-        #      - push
-        #      - pull_request
-        # inputs:
-        #   pr_number:
-        #     description: Enter pull request number
-        #     default: "string"
-        integrations:
-          app_store_connect: CM
-        scripts:
-            # - name: Ruby version update
-            #   script: |
-            #     brew upgrade ruby-build
-            #     rbenv install 3.3.0
-            #     rbenv global 3.3.0
-            #     echo "RBENV_VERSION=3.3.0" >> $CM_ENV 
-            # - name: Create local .env file
-            #   script: |
-            #        ruby -v
-            #        echo "MY_VAR=$MY_VAR" > .env
-            #        echo "ANOTHER_VAR=$MY_ANOTHER_VAR" > .env
-            # - name: Incrementing build number
-            #   script: |
-            #    cd "$CM_BUILD_DIR"
-            #     LATEST_VERSION=$(app-store-connect get-latest-app-store-version "6746455226")
-            #     LATEST_BUILD_NUMBER=$(app-store-connect get-latest-app-store-build-number "6746455226")
+#         #       include: true
+#         #       source: false
+#         #   cancel_previous_builds: true
+#         # when:
+#         #  changeset:
+#         #     includes:
+#         #       - 'android/'
+#         #     excludes:
+#         #       - 'ios/'
+#          # condition: (event.pull_request.draft) or (event.actions.ready_for_review)
+#         # when:
+#         #   condition: event.pull_request.draft
+#         # triggering:
+#         #   events:
+#         #      - push
+#         #      - pull_request
+#         # inputs:
+#         #   pr_number:
+#         #     description: Enter pull request number
+#         #     default: "string"
+#         integrations:
+#           app_store_connect: CM
+#         scripts:
+#             # - name: Ruby version update
+#             #   script: |
+#             #     brew upgrade ruby-build
+#             #     rbenv install 3.3.0
+#             #     rbenv global 3.3.0
+#             #     echo "RBENV_VERSION=3.3.0" >> $CM_ENV 
+#             # - name: Create local .env file
+#             #   script: |
+#             #        ruby -v
+#             #        echo "MY_VAR=$MY_VAR" > .env
+#             #        echo "ANOTHER_VAR=$MY_ANOTHER_VAR" > .env
+#             # - name: Incrementing build number
+#             #   script: |
+#             #    cd "$CM_BUILD_DIR"
+#             #     LATEST_VERSION=$(app-store-connect get-latest-app-store-version "6746455226")
+#             #     LATEST_BUILD_NUMBER=$(app-store-connect get-latest-app-store-build-number "6746455226")
                 
-            #     echo "Found build number $LATEST_BUILD_NUMBER from App Store version $LATEST_VERSION"
+#             #     echo "Found build number $LATEST_BUILD_NUMBER from App Store version $LATEST_VERSION"
                 
-            #     if [[ $LATEST_BUILD_NUMBER =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
-            #       # Case 1: Build number is already semantic (X.Y.Z)
-            #       major=${BASH_REMATCH[1]}
-            #       minor=${BASH_REMATCH[2]}
-            #       patch=${BASH_REMATCH[3]}
+#             #     if [[ $LATEST_BUILD_NUMBER =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
+#             #       # Case 1: Build number is already semantic (X.Y.Z)
+#             #       major=${BASH_REMATCH[1]}
+#             #       minor=${BASH_REMATCH[2]}
+#             #       patch=${BASH_REMATCH[3]}
                 
-            #       patch=$((patch + 1))
-            #       if [[ $patch -ge 10 ]]; then
-            #         patch=0
-            #         minor=$((minor + 1))
-            #       fi
-            #       if [[ $minor -ge 10 ]]; then
-            #         minor=0
-            #         major=$((major + 1))
-            #       fi
+#             #       patch=$((patch + 1))
+#             #       if [[ $patch -ge 10 ]]; then
+#             #         patch=0
+#             #         minor=$((minor + 1))
+#             #       fi
+#             #       if [[ $minor -ge 10 ]]; then
+#             #         minor=0
+#             #         major=$((major + 1))
+#             #       fi
                 
-            #       NEW_BUILD_NUMBER="$major.$minor.$patch"
-            #     elif [[ $LATEST_BUILD_NUMBER =~ ^[0-9]+$ ]]; then
-            #       # Case 2: Build number is a plain number (e.g., 8) → Use LATEST_VERSION to generate a new semantic version
-            #       if [[ $LATEST_VERSION =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
-            #         major=${BASH_REMATCH[1]}
-            #         minor=${BASH_REMATCH[2]}
-            #         patch=${BASH_REMATCH[3]}
-            #         NEW_BUILD_NUMBER="$major.$minor.$LATEST_BUILD_NUMBER"  # Append build number as patch
-            #       else
-            #         echo "Error: App Store version ($LATEST_VERSION) is not semantic!"
-            #         exit 1
-            #       fi
-            #     else
-            #       echo "Error: Build number ($LATEST_BUILD_NUMBER) is neither semantic nor numeric!"
-            #       exit 1
-            #     fi
+#             #       NEW_BUILD_NUMBER="$major.$minor.$patch"
+#             #     elif [[ $LATEST_BUILD_NUMBER =~ ^[0-9]+$ ]]; then
+#             #       # Case 2: Build number is a plain number (e.g., 8) → Use LATEST_VERSION to generate a new semantic version
+#             #       if [[ $LATEST_VERSION =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
+#             #         major=${BASH_REMATCH[1]}
+#             #         minor=${BASH_REMATCH[2]}
+#             #         patch=${BASH_REMATCH[3]}
+#             #         NEW_BUILD_NUMBER="$major.$minor.$LATEST_BUILD_NUMBER"  # Append build number as patch
+#             #       else
+#             #         echo "Error: App Store version ($LATEST_VERSION) is not semantic!"
+#             #         exit 1
+#             #       fi
+#             #     else
+#             #       echo "Error: Build number ($LATEST_BUILD_NUMBER) is neither semantic nor numeric!"
+#             #       exit 1
+#             #     fi
                 
-            #     echo "New build number: $NEW_BUILD_NUMBER"
-            #     agvtool new-version -all "$NEW_BUILD_NUMBER"
+#             #     echo "New build number: $NEW_BUILD_NUMBER"
+#             #     agvtool new-version -all "$NEW_BUILD_NUMBER"
 
-            # cd "$CM_BUILD_DIR" LATEST_VERSION=$(app-store-connect get-latest-app-store-version "6746455226") LATEST_BUILD_NUMBER=$(app-store-connect get-latest-app-store-build-number "6746455226") echo "App Store version : $LATEST_VERSION" echo "Build number      : $LATEST_BUILD_NUMBER" if [[ $LATEST_BUILD_NUMBER =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
-            #   major=${BASH_REMATCH[1]}
-            #   minor=${BASH_REMATCH[2]}
-            #   patch=${BASH_REMATCH[3]}
-            #   patch=$((patch + 1))
-            #   if [[ $patch -ge 10 ]]; then patch=0; minor=$((minor + 1)); fi
-            #   if [[ $minor -ge 10 ]]; then minor=0; major=$((major + 1)); fi
-            #   NEW_BUILD_NUMBER="$major.$minor.$patch"
-            # elif [[ $LATEST_BUILD_NUMBER =~ ^([0-9]+)$ ]]; then
-            #   if [[ $LATEST_VERSION =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
-            #     major=${BASH_REMATCH[1]}
-            #     minor=${BASH_REMATCH[2]}
-            #     patch=${BASH_REMATCH[3]}
-            #     patch=$((patch + 1))
-            #     NEW_BUILD_NUMBER="$major.$minor.$patch"
-            #   else
-            #     echo "Error: App Store version not semantic"; exit 1
-            #   fi
-            # else
-            #   echo "Error: build number not semantic or numeric"; exit 1
-            # fi echo "New build number -> $NEW_BUILD_NUMBER" agvtool new-version -all "$NEW_BUILD_NUMBER"
-            # - name: Azure CLI
-            #   script: |
-            #    HOMEBREW_NO_AUTO_UPDATE=1 brew install azure-cli
-            - name: Install npm dependencies
-              script: |
-                npm install
-            - name: Set up keychain to be used for codesigning using Codemagic CLI 'keychain' command
-              script: |
-                keychain initialize
-            - name: Fetch signing files
-              script: |
-                app-store-connect fetch-signing-files $BUNDLE_ID --type IOS_APP_STORE --create
-            - name: Use system default keychain
-              script: |
-                keychain add-certificates
-            - name: Install CocoaPods dependencies
-              script: |
-                cd ios && pod install
-            - name: Set up code signing settings on Xcode project
-              script: |
-                    xcode-project use-profiles --warn-only
-            # - name: Increment build number
-            #   script: |
-            #         cd $CM_BUILD_DIR/ios
-            #         LATEST_BUILD_NUMBER=$(app-store-connect get-latest-testflight-build-number "6746455226")
-            #         agvtool new-version -all $(($LATEST_BUILD_NUMBER + 1))
-            # - name: Build the .app
-            #   script: | 
-            #     xcodebuild build \
-            #       -workspace "TeamTelliskivi.xcworkspace" \
-            #       -scheme "TeamTelliskivi" \
-            #       -sdk iphonesimulator \
-            #       -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.0' \
-            #       -configuration Debug \
-            #       CODE_SIGN_IDENTITY="" \
-            #       CODE_SIGNING_REQUIRED=NO \
-            #       CODE_SIGNING_ALLOWED=NO
-            - name: Build ipa for distribution
-              script: |
-                xcode-project build-ipa \
-                  --workspace "ios/TeamTelliskivi.xcworkspace" \
-                  --scheme "TeamTelliskivi" \
-                  --archive-flags="-destination 'generic/platform=iOS'" 
-        artifacts:
-            - build/ios/ipa/*.ipa
-            - /tmp/xcodebuild_logs/*.log
-            - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
-            - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
-        publishing:
-          app_store_connect:
-            api_key: $APP_STORE_CONNECT_PRIVATE_KEY
-            issuer_id: $APP_STORE_CONNECT_ISSUER_ID
-            key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
-        #     submit_to_app_store: true
-        #     release_type: AFTER_APPROVAL
-    react-native-android:
-        name: React Native Android
-        instance_type: windows_x2
-        # triggering:
-        #   events:
-        #      - push
-        #      - pull_request
-        scripts:
-            - name: Install npm dependencies
-              script: |
-                npm install
-            - name: Set Android SDK location
-              script: |
-                echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/android/local.properties"            
-            - name: Build Android release
-              script: |
-                LATEST_GOOGLE_PLAY_BUILD_NUMBER=$(google-play get-latest-build-number --package-name "$PACKAGE_NAME")
-                if [ -z LATEST_BUILD_NUMBER ]; then
-                  # fallback in case no build number was found from google play. Alternatively, you can `exit 1` to fail the build
-                  UPDATED_BUILD_NUMBER=$BUILD_NUMBER
-                else
-                  UPDATED_BUILD_NUMBER=$(($LATEST_GOOGLE_PLAY_BUILD_NUMBER + 1))
-                fi
-                cd android
-                ./gradlew bundleRelease \
-                  -PversionCode=$UPDATED_BUILD_NUMBER \
-                  -PversionName=1.0.$UPDATED_BUILD_NUMBER
-        artifacts:
-            - android/app/build/outputs/**/*.aab
+#             # cd "$CM_BUILD_DIR" LATEST_VERSION=$(app-store-connect get-latest-app-store-version "6746455226") LATEST_BUILD_NUMBER=$(app-store-connect get-latest-app-store-build-number "6746455226") echo "App Store version : $LATEST_VERSION" echo "Build number      : $LATEST_BUILD_NUMBER" if [[ $LATEST_BUILD_NUMBER =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
+#             #   major=${BASH_REMATCH[1]}
+#             #   minor=${BASH_REMATCH[2]}
+#             #   patch=${BASH_REMATCH[3]}
+#             #   patch=$((patch + 1))
+#             #   if [[ $patch -ge 10 ]]; then patch=0; minor=$((minor + 1)); fi
+#             #   if [[ $minor -ge 10 ]]; then minor=0; major=$((major + 1)); fi
+#             #   NEW_BUILD_NUMBER="$major.$minor.$patch"
+#             # elif [[ $LATEST_BUILD_NUMBER =~ ^([0-9]+)$ ]]; then
+#             #   if [[ $LATEST_VERSION =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
+#             #     major=${BASH_REMATCH[1]}
+#             #     minor=${BASH_REMATCH[2]}
+#             #     patch=${BASH_REMATCH[3]}
+#             #     patch=$((patch + 1))
+#             #     NEW_BUILD_NUMBER="$major.$minor.$patch"
+#             #   else
+#             #     echo "Error: App Store version not semantic"; exit 1
+#             #   fi
+#             # else
+#             #   echo "Error: build number not semantic or numeric"; exit 1
+#             # fi echo "New build number -> $NEW_BUILD_NUMBER" agvtool new-version -all "$NEW_BUILD_NUMBER"
+#             # - name: Azure CLI
+#             #   script: |
+#             #    HOMEBREW_NO_AUTO_UPDATE=1 brew install azure-cli
+#             - name: Install npm dependencies
+#               script: |
+#                 npm install
+#             - name: Set up keychain to be used for codesigning using Codemagic CLI 'keychain' command
+#               script: |
+#                 keychain initialize
+#             - name: Fetch signing files
+#               script: |
+#                 app-store-connect fetch-signing-files $BUNDLE_ID --type IOS_APP_STORE --create
+#             - name: Use system default keychain
+#               script: |
+#                 keychain add-certificates
+#             - name: Install CocoaPods dependencies
+#               script: |
+#                 cd ios && pod install
+#             - name: Set up code signing settings on Xcode project
+#               script: |
+#                     xcode-project use-profiles --warn-only
+#             # - name: Increment build number
+#             #   script: |
+#             #         cd $CM_BUILD_DIR/ios
+#             #         LATEST_BUILD_NUMBER=$(app-store-connect get-latest-testflight-build-number "6746455226")
+#             #         agvtool new-version -all $(($LATEST_BUILD_NUMBER + 1))
+#             # - name: Build the .app
+#             #   script: | 
+#             #     xcodebuild build \
+#             #       -workspace "TeamTelliskivi.xcworkspace" \
+#             #       -scheme "TeamTelliskivi" \
+#             #       -sdk iphonesimulator \
+#             #       -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.0' \
+#             #       -configuration Debug \
+#             #       CODE_SIGN_IDENTITY="" \
+#             #       CODE_SIGNING_REQUIRED=NO \
+#             #       CODE_SIGNING_ALLOWED=NO
+#             - name: Build ipa for distribution
+#               script: |
+#                 xcode-project build-ipa \
+#                   --workspace "ios/TeamTelliskivi.xcworkspace" \
+#                   --scheme "TeamTelliskivi" \
+#                   --archive-flags="-destination 'generic/platform=iOS'" 
+#         artifacts:
+#             - build/ios/ipa/*.ipa
+#             - /tmp/xcodebuild_logs/*.log
+#             - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
+#             - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
+#         publishing:
+#           app_store_connect:
+#             api_key: $APP_STORE_CONNECT_PRIVATE_KEY
+#             issuer_id: $APP_STORE_CONNECT_ISSUER_ID
+#             key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
+#         #     submit_to_app_store: true
+#         #     release_type: AFTER_APPROVAL
+#     react-native-android:
+#         name: React Native Android
+#         instance_type: windows_x2
+#         # triggering:
+#         #   events:
+#         #      - push
+#         #      - pull_request
+#         scripts:
+#             - name: Install npm dependencies
+#               script: |
+#                 npm install
+#             - name: Set Android SDK location
+#               script: |
+#                 echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/android/local.properties"            
+#             - name: Build Android release
+#               script: |
+#                 LATEST_GOOGLE_PLAY_BUILD_NUMBER=$(google-play get-latest-build-number --package-name "$PACKAGE_NAME")
+#                 if [ -z LATEST_BUILD_NUMBER ]; then
+#                   # fallback in case no build number was found from google play. Alternatively, you can `exit 1` to fail the build
+#                   UPDATED_BUILD_NUMBER=$BUILD_NUMBER
+#                 else
+#                   UPDATED_BUILD_NUMBER=$(($LATEST_GOOGLE_PLAY_BUILD_NUMBER + 1))
+#                 fi
+#                 cd android
+#                 ./gradlew bundleRelease \
+#                   -PversionCode=$UPDATED_BUILD_NUMBER \
+#                   -PversionName=1.0.$UPDATED_BUILD_NUMBER
+#         artifacts:
+#             - android/app/build/outputs/**/*.aab
 
 
 
