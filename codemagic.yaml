@@ -13,6 +13,7 @@ workflows:
              - app_store_connect
           vars:
             CLIENT_ID: "_"
+            BUNDLE_ID: "_"
         
           ios_signing:
             distribution_type: development
