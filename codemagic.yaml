@@ -136,7 +136,6 @@ workflows:
             - name: Install npm dependencies
               script: |
                 npm install
-                sleep 100
             - name: Set up keychain to be used for codesigning using Codemagic CLI 'keychain' command
               script: |
                 keychain initialize
