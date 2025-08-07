@@ -1,8 +1,8 @@
 workflows:
     ios-workflow:
         name: CodePush Workflow
-        labels:
-          - ${CLIENT_ID}
+        # labels:
+        #   - ${CLIENT_ID}
         # pre_clone_scripts:
         #   - name: Timeout
         #     script: timeout 10s
@@ -11,13 +11,13 @@ workflows:
         environment:
           groups:
              - app_store_connect
-          vars:
-            CLIENT_ID: "_"
-            BUNDLE_ID: "_"
+          # vars:
+          #   CLIENT_ID: "_"
+          #   BUNDLE_ID: "_"
         
-          ios_signing:
-            distribution_type: development
-            bundle_identifier: ${BUNDLE_ID}
+          # ios_signing:
+          #   distribution_type: development
+          #   bundle_identifier: ${BUNDLE_ID}
             
             # io.codepush.cm.com
           # xcode: 16.3
