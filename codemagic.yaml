@@ -1,6 +1,7 @@
 workflows:
     ios-workflow:
         name: CodePush Workflow
+        instance_type: mac_mini_m4
         # labels:
         #   - ${CLIENT_ID}
         # pre_clone_scripts:
@@ -21,12 +22,12 @@ workflows:
             
             # io.codepush.cm.com
           # xcode: 16.3
-        triggering:
-          events:
-            - push
-            - pull_request
-          branch_patterns:
-            - pattern: '*'
+        # triggering:
+        #   events:
+        #     - push
+        #     - pull_request
+        #   branch_patterns:
+        #     - pattern: '*'
         # cache:
         #    cache_paths:
         #      - ~/.gradle/caches
