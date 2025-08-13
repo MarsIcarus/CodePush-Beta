@@ -20,7 +20,7 @@ workflows:
           #   bundle_identifier: ${BUNDLE_ID}
             
             # io.codepush.cm.com
-          # xcode: 16.3
+          xcode: 16.3
         triggering:
           events:
             - push
