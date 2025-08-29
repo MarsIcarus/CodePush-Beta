@@ -6,11 +6,11 @@ workflows:
         # pre_clone_scripts:
         #   - name: Timeout
         #     script: timeout 10s
-        # instance_type: mac_mini_m2
+        instance_type: mac_mini_m2
         # working_directory: test_app
         environment:
           vars:
-            CM_CLONE_DEPTH: 5
+            CM_CLONE_DEPTH: 100
           groups:
              - app_store_connect
           # vars:
