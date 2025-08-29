@@ -21,11 +21,11 @@ workflows:
             
             # io.codepush.cm.com
           # xcode: 16.3
-        triggering:
-          events:
-            - pull_request
-          branch_patterns:
-            - pattern: '*'
+        # triggering:
+        #   events:
+        #     - pull_request
+        #   branch_patterns:
+        #     - pattern: '*'
         # cache:
         #    cache_paths:
         #      - ~/.gradle/caches
