@@ -1,0 +1,24 @@
+{
+    "releases": [
+      {
+        "version": "1.258.1",
+        "gitTag": "gather-app-v1.258.1",
+        "date": "2025-08-28T20:19:49.529Z",
+        "notesMarkdown": "## [1.258.1](https://autonation.visualstudio.com/MarketPlace/_git/MarketPlace.Mobile.Template.FlutterApp/branchCompare?baseVersion=GTgather-app-v1.258.0&targetVersion=GTgather-app-v1.258.1) (2025-08-28)\n\n\n### Bug Fixes\n\n* [PR-157746](https://autonation.visualstudio.com/MarketPlace/_git/MarketPlace.Mobile.Template.FlutterApp/pullrequest/157746): fake fix commit **|** commit: ([e011f78c8](https://autonation.visualstudio.com/MarketPlace/_git/MarketPlace.Mobile.Template.FlutterApp/commit/e011f78c8d26ffa5cd82b8bc439d1eb44b11d12b))\n* [PR-157746](https://autonation.visualstudio.com/MarketPlace/_git/MarketPlace.Mobile.Template.FlutterApp/pullrequest/157746): faking a bug fix to push to next minor, and testing changelog **|** commit: ([aef1e8937](https://autonation.visualstudio.com/MarketPlace/_git/MarketPlace.Mobile.Template.FlutterApp/commit/aef1e89377eb7f924d2cda64166e8b1bcbece729))\n* [PR-157746](https://autonation.visualstudio.com/MarketPlace/_git/MarketPlace.Mobile.Template.FlutterApp/pullrequest/157746): faking a fix commit **|** commit: ([acef30300](https://autonation.visualstudio.com/MarketPlace/_git/MarketPlace.Mobile.Template.FlutterApp/commit/acef3030075ec8b8b095aa3596b9b286de9a0871))\n\n",
+        "text": "## [1.258.1](https://autonation.visualstudio.com/MarketPlace/_git/MarketPlace.Mobile.Template.FlutterApp/branchCompare?baseVersion=GTgather-app-v1.258.0&targetVersion=GTgather-app-v1.258.1) (2025-08-28)\n\n\n### Bug Fixes\n\n* [PR-157746](https://autonation.visualstudio.com/MarketPlace/_git/MarketPlace.Mobile.Template.FlutterApp/pullrequest/157746): fake fix commit **|** commit: ([e011f78c8](https://autonation.visualstudio.com/MarketPlace/_git/MarketPlace.Mobile.Template.FlutterApp/commit/e011f78c8d26ffa5cd82b8bc439d1eb44b11d12b))\n* [PR-157746](https://autonation.visualstudio.com/MarketPlace/_git/MarketPlace.Mobile.Template.FlutterApp/pullrequest/157746): faking a bug fix to push to next minor, and testing changelog **|** commit: ([aef1e8937](https://autonation.visualstudio.com/MarketPlace/_git/MarketPlace.Mobile.Template.FlutterApp/commit/aef1e89377eb7f924d2cda64166e8b1bcbece729))\n* [PR-157746](https://autonation.visualstudio.com/MarketPlace/_git/MarketPlace.Mobile.Template.FlutterApp/pullrequest/157746): faking a fix commit **|** commit: ([acef30300](https://autonation.visualstudio.com/MarketPlace/_git/MarketPlace.Mobile.Template.FlutterApp/commit/acef3030075ec8b8b095aa3596b9b286de9a0871))\n\n",
+        "commits": [
+          {
+            "hash": "e011f78c8d26ffa5cd82b8bc439d1eb44b11d12b",
+            "message": "Merged PR 157746: fix(gather_app): fake fix commit",
+            "subject": "Merged PR 157746: fix(gather_app): fake fix commit",
+            "author": {
+              "name": "",
+              "email": "",
+              "date": "2025-08-28T19:43:51.000Z"
+            }
+          }
+        ]
+      }
+        ]
+      }
+        
