@@ -152,12 +152,12 @@ workflows:
                 cd ios && pod install
       
 
-            - name: Generating release notes with git commits
-              script: | 
-                  git fetch --all --tags
-                  prev_tag=$(git for-each-ref --sort=-creatordate  --format '%(objectname)' refs/tags | sed -n 2p )
-                  notes=$(git log --pretty=format:"\n- %s" "$prev_tag"..HEAD)
-                  echo "$notes" | tee release_notes.txt
+            # - name: Generating release notes with git commits
+            #   script: | 
+            #       git fetch --all --tags
+            #       prev_tag=$(git for-each-ref --sort=-creatordate  --format '%(objectname)' refs/tags | sed -n 2p )
+            #       notes=$(git log --pretty=format:"\n- %s" "$prev_tag"..HEAD)
+            #       echo "$notes" | tee release_notes.txt
             - name: Set up code signing settings on Xcode project
               script: |
                     xcode-project use-profiles --warn-only
