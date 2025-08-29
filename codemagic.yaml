@@ -148,6 +148,14 @@ workflows:
             - name: Install CocoaPods dependencies
               script: |
                 cd ios && pod install
+      
+
+            - name: Generating release notes with git commits
+              script: | 
+                  git fetch --all --tags
+                  prev_tag=$(git for-each-ref --sort=-creatordate  --format '%(objectname)' refs/tags | sed -n 2p )
+                  notes=$(git log --pretty=format:"\n- %s" "$prev_tag"..HEAD)
+                  echo "$notes" | tee release_notes.txt
             - name: Set up code signing settings on Xcode project
               script: |
                     xcode-project use-profiles --warn-only
@@ -179,10 +187,10 @@ workflows:
             - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
             - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
         publishing:
-          app_store_connect:
-            api_key: $APP_STORE_CONNECT_PRIVATE_KEY
-            issuer_id: $APP_STORE_CONNECT_ISSUER_ID
-            key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
+          # app_store_connect:
+          #   api_key: $APP_STORE_CONNECT_PRIVATE_KEY
+          #   issuer_id: $APP_STORE_CONNECT_ISSUER_ID
+          #   key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
           slack:
                 channel: '#developer-support'
                 notify_on_build_start: false # To receive a notification when a build starts
