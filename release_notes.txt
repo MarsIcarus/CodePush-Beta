@@ -1,0 +1,16 @@
+Gather App Changelog
+
+## [1.259.0](https://autonation.visualstudio.com/MarketPlace/_git/MarketPlace.Mobile.Template.FlutterApp/branchCompare?baseVersion=GTgather-app-v1.258.0&targetVersion=GTgather-app-v1.259.0) (2025-08-29)
+
+
+### Features
+
+* [PR-158116](https://autonation.visualstudio.com/MarketPlace/_git/MarketPlace.Mobile.Template.FlutterApp/pullrequest/158116): Add warning icon **|** work item(s): [593901](https://autonation.visualstudio.com/MarketPlace/_workitems/edit/593901/) **|** commit: ([76fb57eb3](https://autonation.visualstudio.com/MarketPlace/_git/MarketPlace.Mobile.Template.FlutterApp/commit/76fb57eb342359dd54bbcc0fec0155b4c6512934))
+
+
+### Bug Fixes
+
+* [PR-157746](https://autonation.visualstudio.com/MarketPlace/_git/MarketPlace.Mobile.Template.FlutterApp/pullrequest/157746): fake fix commit **|** commit: ([7cb560c7e](https://autonation.visualstudio.com/MarketPlace/_git/MarketPlace.Mobile.Template.FlutterApp/commit/7cb560c7e52f4dc34c8a5e74e63bb2b8e9dc03c4))
+* [PR-157746](https://autonation.visualstudio.com/MarketPlace/_git/MarketPlace.Mobile.Template.FlutterApp/pullrequest/157746): faking a bug fix to push to next minor, and testing changelog **|** commit: ([b36b98852](https://autonation.visualstudio.com/MarketPlace/_git/MarketPlace.Mobile.Template.FlutterApp/commit/b36b98852f1f13ab55ab97922b1e7b105d747f10))
+* [PR-157746](https://autonation.visualstudio.com/MarketPlace/_git/MarketPlace.Mobile.Template.FlutterApp/pullrequest/157746): faking a fix commit **|** commit: ([1ac6822cf](https://autonation.visualstudio.com/MarketPlace/_git/MarketPlace.Mobile.Template.FlutterApp/commit/1ac6822cfcd85d159bb03534f4e37a8c9cb00b0d))
+* [PR-158097](https://autonation.visualstudio.com/MarketPlace/_git/MarketPlace.Mobile.Template.FlutterApp/pullrequest/158097): compare utc dates for gatheirng modifications **|** work item(s): [593852](https://autonation.visualstudio.com/MarketPlace/_workitems/edit/593852/) **|** commit: ([1dc4fe8f1](https://autonation.visualstudio.com/MarketPlace/_git/MarketPlace.Mobile.Template.FlutterApp/commit/1dc4fe8f1d608788c3831e5949e72df6b49a3e22))
