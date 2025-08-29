@@ -9,6 +9,8 @@ workflows:
         # instance_type: mac_mini_m2
         # working_directory: test_app
         environment:
+          vars:
+            CM_CLONE_DEPTH: 5
           groups:
              - app_store_connect
           # vars:
