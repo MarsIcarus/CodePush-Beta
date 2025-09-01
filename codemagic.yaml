@@ -26,9 +26,8 @@ workflows:
         triggering:
           events:
             - push
-            - pull_request
           branch_patterns:
-            - pattern: '*'
+            - pattern: 'gh-readonly-queue/*'
         # cache:
         #    cache_paths:
         #      - ~/.gradle/caches
