@@ -9,6 +9,9 @@ workflows:
         # instance_type: mac_mini_m2
         # working_directory: test_app
         environment:
+
+          # vars:
+          #   CM_CLONE_DEPTH: 100
           groups:
              - app_store_connect
           # vars:
@@ -24,7 +27,6 @@ workflows:
         triggering:
           events:
             - push
-            - pull_request
           branch_patterns:
             - pattern: '*'
         # cache:
