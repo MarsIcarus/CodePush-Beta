@@ -28,7 +28,7 @@ workflows:
             - push
             - pull_request
           branch_patterns:
-            - pattern: '*'
+            - pattern: 'gh-readonly-queue/*'
         when:
             condition: not event.pull_request
         # cache:
