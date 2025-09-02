@@ -27,7 +27,7 @@ workflows:
           events:
             - push
           branch_patterns:
-            - pattern: 'gh-readonly-queue/*'
+            - pattern: 'gh-readonly-queue/*/*'
         # cache:
         #    cache_paths:
         #      - ~/.gradle/caches
