@@ -30,7 +30,7 @@ workflows:
           branch_patterns:
             - pattern: '*'
         when:
-            condition: event.pull_request.draft and not event.push
+            condition: event.pull_request.draft and event.push
         # cache:
         #    cache_paths:
         #      - ~/.gradle/caches
