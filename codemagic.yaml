@@ -23,11 +23,11 @@ workflows:
             
             # io.codepush.cm.com
           # xcode: 16.3
-        triggering:
-          events:
-            - push
-          branch_patterns:
-            - pattern: 'gh-readonly-queue/main/*'
+        # triggering:
+        #   events:
+        #     - push
+        #   branch_patterns:
+        #     - pattern: 'gh-readonly-queue/main/*'
           
         # cache:
         #    cache_paths:
@@ -135,6 +135,13 @@ workflows:
             # - name: Azure CLI
             #   script: |
             #    HOMEBREW_NO_AUTO_UPDATE=1 brew install azure-cli
+            - name: Unity
+              script: |
+               
+                  $UNITY_HOME/Contents/MacOS/Unity -batchmode -quit -logFile \
+                  -serial ${UNITY_SERIAL?} \
+                  -username ${UNITY_EMAIL?} \
+                  -password ${UNITY_PASSWORD?}
             - name: Install npm dependencies
               script: |
                 npm install
