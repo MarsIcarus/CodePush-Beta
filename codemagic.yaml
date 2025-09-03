@@ -11,7 +11,7 @@ workflows:
         environment:
           # vars:
           #   CM_CLONE_DEPTH: 100
-          unity: 2023.1.17f1
+
 
           groups:
              - app_store_connect
@@ -137,13 +137,7 @@ workflows:
             # - name: Azure CLI
             #   script: |
             #    HOMEBREW_NO_AUTO_UPDATE=1 brew install azure-cli
-            - name: Unity
-              script: |
-               
-                  $UNITY_HOME/Contents/MacOS/Unity -batchmode -quit -logFile \
-                  -serial ${UNITY_SERIAL?} \
-                  -username ${UNITY_EMAIL?} \
-                  -password ${UNITY_PASSWORD?}
+
             - name: Install npm dependencies
               script: |
                 npm install
