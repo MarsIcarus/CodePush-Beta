@@ -137,7 +137,12 @@ workflows:
             # - name: Azure CLI
             #   script: |
             #    HOMEBREW_NO_AUTO_UPDATE=1 brew install azure-cli
-
+            - name: Locale
+              script: defaults read NSGlobalDomain AppleLocale
+            - name: Timezone
+              script: sudo systemsetup -settimezone "Europe/Paris"
+            - name: Locale
+              script: defaults read NSGlobalDomain AppleLocale
             - name: Install npm dependencies
               script: |
                 npm install
