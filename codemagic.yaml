@@ -11,6 +11,8 @@ workflows:
         environment:
           # vars:
           #   CM_CLONE_DEPTH: 100
+          unity: 2023.1.17f1
+
           groups:
              - app_store_connect
           # vars:
